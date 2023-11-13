@@ -27,7 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+STRIPE_SECRET_KEY = 'sk_test_51O9tIsJcK0ecXttYzovqExTj9YMtSL0Gl9jGRv1i0fjnGQwnFHfHd3VXRHWRst5UWOVU6F4VXomZKSV2RMYg0K1n004W6YYH54'
 
+STRIPE_PUBLISHABLE_KEY ='pk_test_51O9tIsJcK0ecXttYZWpFHyQlMlMOz6JjFKVnNttjQeTT1TxthKdHxWrJdpF1JKCTvXUesNxwghH1sUmUnwKqcUKL00IC7BMnYy'
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,9 +42,10 @@ INSTALLED_APPS = [
     'my_shop',
     'rest_framework',
     'rest_framework.authtoken',
-    #'corseheaders',
+    'corsheaders',
     'djoser',
     'products',
+    'order',
 ]
 
 CORS_ALLOWED_ORIGINS = [

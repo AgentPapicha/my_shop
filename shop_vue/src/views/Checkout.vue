@@ -144,7 +144,7 @@ export default {
         this.cart = this.$store.state.cart
 
         if (this.cartTotalLength > 0) {
-            this.stripe = Stripe('pk_test_51H1HiuKBJV2qfWbD2gQe6aqanfw6Eyul5PO2KeOuSRlUMuaV4TxEtaQyzr9DbLITSZweL7XjK3p74swcGYrE2qEX00Hz7GmhMI')
+            this.stripe = Stripe('pk_test_51O9tIsJcK0ecXttYZWpFHyQlMlMOz6JjFKVnNttjQeTT1TxthKdHxWrJdpF1JKCTvXUesNxwghH1sUmUnwKqcUKL00IC7BMnYy')
             const elements = this.stripe.elements();
             this.card = elements.create('card', { hidePostalCode: true })
 
@@ -186,62 +186,62 @@ export default {
                 this.errors.push('The place field is missing!')
             }
 
-            // if (!this.errors.length) {
-            //     this.$store.commit('setIsLoading', true)
+            if (!this.errors.length) {
+                this.$store.commit('setIsLoading', true)
 
-            //     this.stripe.createToken(this.card).then(result => {                    
-            //         if (result.error) {
-            //             this.$store.commit('setIsLoading', false)
+                this.stripe.createToken(this.card).then(result => {                    
+                    if (result.error) {
+                        this.$store.commit('setIsLoading', false)
 
-            //             this.errors.push('Something went wrong with Stripe. Please try again')
+                        this.errors.push('Something went wrong with Stripe. Please try again')
 
-            //             console.log(result.error.message)
-            //         } else {
-            //             this.stripeTokenHandler(result.token)
-            //         }
-            //     })
-            // }
+                        console.log(result.error.message)
+                    } else {
+                        this.stripeTokenHandler(result.token)
+                    }
+                })
+            }
         },
-        // async stripeTokenHandler(token) {
-        //     const items = []
+        async stripeTokenHandler(token) {
+            const items = []
 
-        //     for (let i = 0; i < this.cart.items.length; i++) {
-        //         const item = this.cart.items[i]
-        //         const obj = {
-        //             product: item.product.id,
-        //             quantity: item.quantity,
-        //             price: item.product.price * item.quantity
-        //         }
+            for (let i = 0; i < this.cart.items.length; i++) {
+                const item = this.cart.items[i]
+                const obj = {
+                    product: item.product.id,
+                    quantity: item.quantity,
+                    price: item.product.price * item.quantity
+                }
 
-        //         items.push(obj)
-        //     }
+                items.push(obj)
+            }
 
-        //     const data = {
-        //         'first_name': this.first_name,
-        //         'last_name': this.last_name,
-        //         'email': this.email,
-        //         'address': this.address,
-        //         'zipcode': this.zipcode,
-        //         'place': this.place,
-        //         'phone': this.phone,
-        //         'items': items,
-        //         'stripe_token': token.id
-        //     }
+            const data = {
+                'first_name': this.first_name,
+                'last_name': this.last_name,
+                'email': this.email,
+                'address': this.address,
+                'zipcode': this.zipcode,
+                'place': this.place,
+                'phone': this.phone,
+                'items': items,
+                'stripe_token': token.id
+            }
 
-        //     await axios
-        //         .post('/api/v1/checkout/', data)
-        //         .then(response => {
-        //             this.$store.commit('clearCart')
-        //             this.$router.push('/cart/success')
-        //         })
-        //         .catch(error => {
-        //             this.errors.push('Something went wrong. Please try again')
+            await axios
+                .post('/api/v1/checkout/', data)
+                .then(response => {
+                    this.$store.commit('clearCart')
+                    this.$router.push('/cart/success')
+                })
+                .catch(error => {
+                    this.errors.push('Something went wrong. Please try again')
 
-        //             console.log(error)
-        //         })
+                    console.log(error)
+                })
 
-        //         this.$store.commit('setIsLoading', false)
-        // }
+                this.$store.commit('setIsLoading', false)
+        }
     },
     computed: {
         cartTotalLength() {

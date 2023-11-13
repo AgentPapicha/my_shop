@@ -26,12 +26,12 @@
 <script>
 import axios from 'axios'
 
-// import OrderSummary from '@/components/OrderSummary.vue'
+import OrderSummary from '@/components/OrderSummary.vue'
 
 export default {
     name: 'MyAccount',
     components: {
-        // OrderSummary
+        OrderSummary
     },
     data() {
         return {

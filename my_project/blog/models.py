@@ -5,9 +5,9 @@ from io import BytesIO
 from PIL import Image
 
 
-class Post(models.Model):
+class Article(models.Model):
     title = models.CharField(max_length=400)
-    post_text = models.TextField()
+    article_text = models.TextField()
     slug = models.SlugField()
     author_name = models.CharField(max_length=100)
     created_at = models.DateField()
@@ -37,7 +37,7 @@ class Post(models.Model):
             else:
                 return ''
 
-    def make_thumbnail(self, image, size=(300, 200)):
+    def make_thumbnail(self, image, size=(370, 250)):
         img = Image.open(image)
         img.convert('RGB')
         img.thumbnail(size)

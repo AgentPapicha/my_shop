@@ -81,8 +81,25 @@
         v-bind:key="product.id"
         v-bind:product="product" />
 
-
     </div>
+
+<section>
+    <h2 class="is-size-2 has-text-centered">Latest Articles</h2>
+    <div class="column is-3" 
+        v-for="article in latestArticles"
+        v-bind:key="article.id">
+        <div class="box">
+            <!-- <figure class="image mb-4">
+                <img v-bind:src="article.get_thumbnail">
+            </figure> -->
+
+            <h3 class="is-size-4">{{ article.title }}</h3>
+            <!-- <p class="is-size-6 has-text-grey">${{ product.price }}</p> -->
+
+            <!-- <router-link v-bind:to="product.get_absolute_url" class="button is-dark mt-4">View details</router-link> -->
+        </div>
+    </div>
+</section>
   </div>
 </template>
 
@@ -148,16 +165,19 @@ export default {
   name: 'Home',
   data() {
     return {
-      latestProducts: []
+      latestProducts: [],
+      latestArticles: []
     }
   },
   components: {
     ProductBox
   },
   mounted() {
-    this.getLatestProducts()
+    this.getLatestProducts(),
+    this.getLatestArticles()
 
     document.title = 'Home | Glee'
+
   },
   methods: {
     async getLatestProducts() {
@@ -173,7 +193,19 @@ export default {
         })
 
       this.$store.commit('setIsLoading', false)
+    },
+
+    getLatestArticles() {
+        axios
+        .get('/api/v1/latest-articles/')
+        .then(response => {
+          this.latestArticles = response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }
+
 </script>

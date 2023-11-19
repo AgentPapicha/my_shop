@@ -1,0 +1,312 @@
+<template>
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glee</title>
+  <link rel="stylesheet" href="../assets/css/style.min.css">
+</head>
+  <div class="home">
+    <section class="hero is-medium is-dark mb-6">
+        <div class="hero-body has-text-centered">
+            <p class="title mb-6">
+                Welcome to Glee
+            </p>
+            <p class="subtitle">
+                The best furniture store online
+            </p>
+        </div>
+    </section>
+<main class="main">
+  <section class="top-slider">
+
+<div class="top-slider__wrapper">
+    <div class="top-slider__item">
+        <div class="top-slider__content">
+            <h2 class="top-slider__title">
+                SMART AND
+                TRENDY
+            </h2>
+            <p class="top-slider__text">
+                Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+            </p>
+            <a class="top-slider__link" href="#">
+                Shop Now <span>→</span>
+            </a>
+        </div>
+        <img class="top-slider__img" src="../assets/images/slider/photo.png" alt="slide img">
+    </div>
+    <!-- <div class="top-slider__item">
+        <div class="top-slider__content">
+            <h2 class="top-slider__title">
+                SMART AND
+                TRENDY
+            </h2>
+            <p class="top-slider__text">
+                Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+            </p>
+            <a class="top-slider__link" href="#">
+                Shop Now <span>→</span>
+            </a>
+        </div>
+        <img class="top-slider__img" src="images/slider/photo.png" alt="slide img">
+    </div>
+    <div class="top-slider__item">
+        <div class="top-slider__content">
+            <h2 class="top-slider__title">
+                SMART AND
+                TRENDY
+            </h2>
+            <p class="top-slider__text">
+                Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+            </p>
+            <a class="top-slider__link" href="#">
+                Shop Now <span>→</span>
+            </a>
+        </div>
+        <img class="top-slider__img" src="images/slider/photo.png" alt="slide img">
+    </div> -->
+</div>
+
+</section>
+</main>
+    <div class="columns is-multiline">
+      <div class="column is-12">
+          <h2 class="is-size-2 has-text-centered">Latest products</h2>
+      </div>
+
+      <ProductBox 
+        v-for="product in latestProducts"
+        v-bind:key="product.id"
+        v-bind:product="product" />
+
+    </div>
+
+<section>
+    
+    <h2 class="is-size-2 has-text-centered">Latest Articles</h2>
+    <div class="columns is-multiline">
+    <div class="column is-3" 
+        v-for="article in latestArticles"
+        v-bind:key="article.id">
+        <div class="box">
+            <figure class="image mb-4">
+                <img v-bind:src="article.get_thumbnail">
+            </figure>
+
+            <h3 class="is-size-4">{{ article.title }}</h3>
+            <h5 class="is-size-5 has-text-left"> {{ article.created_at }}</h5>
+            <h4 class="is-size-4 has-text-right"> By {{ article.author_name }}</h4>
+            <!-- <p class="is-size-6 has-text-grey">${{ product.price }}</p> -->
+
+            <!-- <router-link v-bind:to="product.get_absolute_url" class="button is-dark mt-4">View details</router-link> -->
+        </div>
+    </div>
+    </div>
+</section>
+  </div>
+</template>
+
+<style lang="scss">
+.top-slider {
+    margin: 0 75px;
+    background-color: #fcd7b6;
+
+    &__content {
+        padding-top: 225px;
+        padding-left: 300px;
+    }
+
+    &__item {
+        display: flex !important;
+        justify-content: space-between;
+    }
+
+    &__title {
+        max-width: 420px;
+        // @extend %rubik-500;
+        font-size: 72px;
+        line-height: 70px;
+        color: #243f4d;
+        margin-bottom: 45px;
+    }
+
+    &__text {
+        // @extend %rubik-400;
+        color: #436372;
+        max-width: 330px;
+        margin-bottom: 45px;
+
+    }
+
+    &__link {
+        background-color: #a3bbc8;
+        padding: 25px 20px 25px 25px;
+        // @extend %rubik-500;
+        color: white;
+        cursor: pointer;
+
+        span {
+            padding-left: 60px;
+            font-size: 20px;
+        }
+    }
+
+    &__img {
+        padding: 100px 180px 0 0;
+    }
+
+
+    .articles {
+    // background-image: url('../images/articles-bg.svg');
+    background-repeat: no-repeat;
+    background-position: 50% 90%;
+
+    &__top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 50px;
+    }
+
+    &__link {
+        // @extend %dmsans-700;
+        font-size: 16px;
+        color: #262626;
+        position: relative;
+        padding-right: 18px;
+
+        &::after {
+            position: absolute;
+            // content: url("../images/icons/arrow-right.svg");
+            width: 6px;
+            height: 11px;
+            right: -5px;
+        }
+    }
+
+    &__items {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 90px;
+
+    }
+
+    &__item {
+        box-shadow: 0px 6px 47px 3px rgba(37, 37, 37, 0.05);
+        border-radius: 5px;
+        background-color: #ffffff;
+    }
+
+    &__item-image {
+        max-width: 371px;
+
+        position: relative;
+        margin-bottom: 32px;
+    }
+
+    &__item-type {
+        // @extend %poppins-700;
+        font-size: 14px;
+        color: #ffffff;
+        border: 1px solid rgb(163, 187, 200);
+        padding: 3px 30px;
+        border-radius: 16px;
+        background-color: rgb(163, 187, 200);
+        cursor: pointer;
+        position: absolute;
+        transform: translateY(-49px);
+        margin-left: 28px;
+    }
+
+    &__item-content {
+        padding: 0 28px 28px;
+    }
+
+    &__item-text {
+        // @extend %dmsans-500;
+        font-size: 18px;
+        color: #262626;
+        text-align-last: left;
+        max-width: 315px;
+        border-bottom: 1px solid #e0e0e0;
+        margin-bottom: 18px;
+        height: 84px;
+    }
+
+    &__item-info {
+        display: flex;
+        font-size: 13px;
+        // @extend %dmsans-500;
+
+        a {
+            color: #222933;
+        }
+    }
+
+    &__item-date {
+        margin: 2px 0 30px;
+        margin-left: 2px;
+        margin-right: 30px;
+    }
+
+}
+
+
+}
+</style>
+
+<script>
+
+import axios from 'axios'
+
+import ProductBox from '@/components/Productbox.vue'
+
+export default {
+  name: 'Home',
+  data() {
+    return {
+      latestProducts: [],
+      latestArticles: []
+    }
+  },
+  components: {
+    ProductBox
+  },
+  mounted() {
+    this.getLatestProducts(),
+    this.getLatestArticles()
+
+    document.title = 'Home | Glee'
+
+  },
+  methods: {
+    async getLatestProducts() {
+      this.$store.commit('setIsLoading', true)
+
+      await axios
+        .get('/api/v1/latest-products/')
+        .then(response => {
+          this.latestProducts = response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
+      this.$store.commit('setIsLoading', false)
+    },
+
+    async getLatestArticles() {
+        await axios
+            .get('/api/v1/latest-articles/')
+            .then(response => {
+            this.latestArticles = response.data
+            })
+            .catch(error => {
+            console.log(error)
+            })
+    }
+  }
+}
+
+</script>

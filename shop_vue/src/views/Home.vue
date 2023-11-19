@@ -1,4 +1,3 @@
-
 <template>
   <head>
   <meta charset="UTF-8">
@@ -84,20 +83,25 @@
     </div>
 
 <section>
+    
     <h2 class="is-size-2 has-text-centered">Latest Articles</h2>
+    <div class="columns is-multiline">
     <div class="column is-3" 
         v-for="article in latestArticles"
         v-bind:key="article.id">
         <div class="box">
-            <!-- <figure class="image mb-4">
+            <figure class="image mb-4">
                 <img v-bind:src="article.get_thumbnail">
-            </figure> -->
+            </figure>
 
             <h3 class="is-size-4">{{ article.title }}</h3>
+            <h5 class="is-size-5 has-text-left"> {{ article.created_at }}</h5>
+            <h4 class="is-size-4 has-text-right"> By {{ article.author_name }}</h4>
             <!-- <p class="is-size-6 has-text-grey">${{ product.price }}</p> -->
 
             <!-- <router-link v-bind:to="product.get_absolute_url" class="button is-dark mt-4">View details</router-link> -->
         </div>
+    </div>
     </div>
 </section>
   </div>
@@ -152,6 +156,103 @@
         padding: 100px 180px 0 0;
     }
 
+
+    .articles {
+    // background-image: url('../images/articles-bg.svg');
+    background-repeat: no-repeat;
+    background-position: 50% 90%;
+
+    &__top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 50px;
+    }
+
+    &__link {
+        // @extend %dmsans-700;
+        font-size: 16px;
+        color: #262626;
+        position: relative;
+        padding-right: 18px;
+
+        &::after {
+            position: absolute;
+            // content: url("../images/icons/arrow-right.svg");
+            width: 6px;
+            height: 11px;
+            right: -5px;
+        }
+    }
+
+    &__items {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 90px;
+
+    }
+
+    &__item {
+        box-shadow: 0px 6px 47px 3px rgba(37, 37, 37, 0.05);
+        border-radius: 5px;
+        background-color: #ffffff;
+    }
+
+    &__item-image {
+        max-width: 371px;
+
+        position: relative;
+        margin-bottom: 32px;
+    }
+
+    &__item-type {
+        // @extend %poppins-700;
+        font-size: 14px;
+        color: #ffffff;
+        border: 1px solid rgb(163, 187, 200);
+        padding: 3px 30px;
+        border-radius: 16px;
+        background-color: rgb(163, 187, 200);
+        cursor: pointer;
+        position: absolute;
+        transform: translateY(-49px);
+        margin-left: 28px;
+    }
+
+    &__item-content {
+        padding: 0 28px 28px;
+    }
+
+    &__item-text {
+        // @extend %dmsans-500;
+        font-size: 18px;
+        color: #262626;
+        text-align-last: left;
+        max-width: 315px;
+        border-bottom: 1px solid #e0e0e0;
+        margin-bottom: 18px;
+        height: 84px;
+    }
+
+    &__item-info {
+        display: flex;
+        font-size: 13px;
+        // @extend %dmsans-500;
+
+        a {
+            color: #222933;
+        }
+    }
+
+    &__item-date {
+        margin: 2px 0 30px;
+        margin-left: 2px;
+        margin-right: 30px;
+    }
+
+}
+
+
 }
 </style>
 
@@ -195,15 +296,15 @@ export default {
       this.$store.commit('setIsLoading', false)
     },
 
-    getLatestArticles() {
-        axios
-        .get('/api/v1/latest-articles/')
-        .then(response => {
-          this.latestArticles = response.data
-        })
-        .catch(error => {
-          console.log(error)
-        })
+    async getLatestArticles() {
+        await axios
+            .get('/api/v1/latest-articles/')
+            .then(response => {
+            this.latestArticles = response.data
+            })
+            .catch(error => {
+            console.log(error)
+            })
     }
   }
 }

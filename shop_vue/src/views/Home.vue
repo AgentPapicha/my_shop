@@ -36,36 +36,6 @@
         </div>
         <img class="top-slider__img" src="../assets/images/slider/photo.png" alt="slide img">
     </div>
-    <!-- <div class="top-slider__item">
-        <div class="top-slider__content">
-            <h2 class="top-slider__title">
-                SMART AND
-                TRENDY
-            </h2>
-            <p class="top-slider__text">
-                Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-            </p>
-            <a class="top-slider__link" href="#">
-                Shop Now <span>→</span>
-            </a>
-        </div>
-        <img class="top-slider__img" src="images/slider/photo.png" alt="slide img">
-    </div>
-    <div class="top-slider__item">
-        <div class="top-slider__content">
-            <h2 class="top-slider__title">
-                SMART AND
-                TRENDY
-            </h2>
-            <p class="top-slider__text">
-                Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-            </p>
-            <a class="top-slider__link" href="#">
-                Shop Now <span>→</span>
-            </a>
-        </div>
-        <img class="top-slider__img" src="images/slider/photo.png" alt="slide img">
-    </div> -->
 </div>
 
 </section>
@@ -82,28 +52,67 @@
 
     </div>
 
-<section>
-    
-    <h2 class="is-size-2 has-text-centered">Latest Articles</h2>
-    <div class="columns is-multiline">
-    <div class="column is-3" 
-        v-for="article in latestArticles"
-        v-bind:key="article.id">
-        <div class="box">
-            <figure class="image mb-4">
-                <img v-bind:src="article.get_thumbnail">
-            </figure>
+<section class="articles">
+            <div class="container">
+                <div class="articles__top">
+                    <h2 class="title">
+                        Our Insights & Articles
+                    </h2>
+                    <a class="articles__link" href="#">
+                        View All
+                    </a>
+                </div>
+                <div class="articles__items">
+                    <div class="articles__item" 
+                    v-for="article in latestArticles"
+                    v-bind:key="article.id">
+                    <router-link class="articles__item-imglink" v-bind:to="'/articles' + article.get_absolute_url">
+                            <img v-bind:src="article.get_thumbnail" class="articles__item-image"  alt="article image">
+                    </router-link>
+                        <a class="articles__item-type">
+                            NEWS
+                        </a>
+                        <div class="articles__item-content">
+                            <router-link v-bind:to="'/articles' + article.get_absolute_url">
+                            <p class="articles__item-text">
+                                {{ article.title }}
+                            </p>
+                            </router-link>
+                            <div class="articles__item-info">
+                                <a class="articles__item-date" href="#">
+                                {{ article.created_at }}
+                                </a>
+                                <a class="articles__item-author" href="#">
+                                 By {{ article.author_name }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <h3 class="is-size-4">{{ article.title }}</h3>
-            <h5 class="is-size-5 has-text-left"> {{ article.created_at }}</h5>
-            <h4 class="is-size-4 has-text-right"> By {{ article.author_name }}</h4>
-            <!-- <p class="is-size-6 has-text-grey">${{ product.price }}</p> -->
-
-            <!-- <router-link v-bind:to="product.get_absolute_url" class="button is-dark mt-4">View details</router-link> -->
-        </div>
-    </div>
-    </div>
-</section>
+            </div>
+            <div class="partners">
+                <div class="container">
+                    <ul class="partners__list">
+                        <li class="partners__list-item">
+                            <img src="../assets/images/partners/1.png" alt="partner logo">
+                        </li>
+                        <li class="partners__list-item">
+                            <img src="../assets/images/partners/2.png" alt="partner logo">
+                        </li>
+                        <li class="partners__list-item">
+                            <img src="../assets/images/partners/3.png" alt="partner logo">
+                        </li>
+                        <li class="partners__list-item">
+                            <img src="../assets/images/partners/4.png" alt="partner logo">
+                        </li>
+                        <li class="partners__list-item">
+                            <img src="../assets/images/partners/5.png" alt="partner logo">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
   </div>
 </template>
 
@@ -257,7 +266,7 @@
 </style>
 
 <script>
-
+require("@/assets/css/style.min.css")
 import axios from 'axios'
 
 import ProductBox from '@/components/Productbox.vue'

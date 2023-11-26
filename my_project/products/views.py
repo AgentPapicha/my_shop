@@ -1,12 +1,25 @@
+import logging
+import sys
 from django.db.models import Q
 from django.http import Http404
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import status
+from rest_framework import viewsets, permissions
 
 from .models import Product, Category, ProductReview
 from .serializers import ProductSerializer, CategorySerializer, ReviewSerializer
+
+logging.basicConfig(
+    format="%(asctime)s.%(msecs)03d %(levelname)s "
+    "[%(name)s:%(funcName)s:%(lineno)s] -> %(message)s",
+    datefmt="%Y-%m-%d,%H:%M:%S",
+    stream=sys.stdout,
+    level=logging.DEBUG,
+)
+logger = logging.getLogger(__name__)
 
 
 class LatestProductsList(APIView):
@@ -40,6 +53,38 @@ class ReviewsList(APIView):
         reviews = ProductReview.objects.filter(product__category__slug=category_slug, product__slug=product_slug)
         serializer = ReviewSerializer(reviews, many=True)
         return Response(serializer.data)
+
+    def post(self, request, category_slug, product_slug):
+        serializer = ReviewSerializer(data=request.data)
+
+        if serializer.is_valid():
+            product = Product.objects.get(category__slug=category_slug, slug=product_slug)
+            serializer.save(product=product)
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ReviewsViewSet(viewsets.ModelViewSet):
+    queryset = ProductReview.objects.all().order_by("-date_added")
+    serializer_class = ReviewSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def list(self, request) -> Response:
+
+        logger.debug("Hello from list method")
+        return Response([review.content for review in self.queryset])
+
+    def create(self, request) -> Response:
+        logger.debug("Hello from create method")
+        data = request.data
+        s = self.serializer_class(data=data)
+        if s.is_valid():
+            s.save()
+            return Response("Saved OK")
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class CategoryDetail(APIView):

@@ -17,6 +17,17 @@
                     <p>Stars: {{ review.stars}}</p>
                     <p style="color: blue;">Review text:{{ review.content }}</p>
                 </div>
+                <div>
+                <form @submit.prevent="submitReview">
+                <label for="content">Отзыв:</label>
+                <textarea v-model="review.content" id="content" required></textarea>
+
+                <label for="stars">Оценка:</label>
+                <input v-model.number="review.stars" type="number" id="stars" required/>
+
+                <button type="submit">Отправить отзыв</button>
+                </form>
+            </div>
             </div>
             <div class="column is-3">
                 <h2 class="subtitle">Information</h2>
@@ -90,7 +101,44 @@ export default {
                     console.log(error)
                 })
         },
+        async submitReview() {
+            try {
+                const category_slug = this.$route.params.category_slug;
+                const product_slug = this.$route.params.product_slug;
 
+                const reviewData = {
+                id: 1,
+                user: 4,
+                date_added: "2023-11-26T17:07:18.121227Z", 
+                content: this.review.content,
+                stars: this.review.stars,
+                };
+
+                const response = await axios.post(`/api/v1/products/${category_slug}/${product_slug}/reviews/`, reviewData);
+                console.log('Ответ от сервера:', response.data);
+
+
+                this.review = {}; // Очистка формы после отправки отзыва
+                this.getProductReviews(); // Обновление списка отзывов
+
+                // Выведите уведомление о успешной отправке
+                toast({
+                    message: 'Отзыв успешно отправлен',
+                    type: 'is-success',
+                    position: 'bottom-right',
+                    duration: 3000,
+                });
+            } catch (error) {
+                console.error('Ошибка при отправке отзыва:', error.response.data);
+                // Обработка ошибки, например, вывод сообщения пользователю
+                toast({
+                    message: 'Ошибка при отправке отзыва',
+                    type: 'is-danger',
+                    position: 'bottom-right',
+                    duration: 3000,
+                });
+            }
+        },
         addToCart() {
             if (isNaN(this.quantity) || this.quantity < 1) {
                 this.quantity = 1

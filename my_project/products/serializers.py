@@ -34,11 +34,11 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductReview
         fields = (
-            "id",
-            "content",
-            "stars",
-            "user",
-            "date_added",
+           "id",
+           "content",
+           "stars",
+           "user",
+           "date_added",
         )
 
     def create(self, validated_data):

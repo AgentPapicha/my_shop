@@ -2,6 +2,4 @@ Django==4.2.6
 djangorestframework==3.14.0]
 django-cors-headers==4.3.0
 Pillow==10.1.0
-Pillow==10.1.0
-stripe==7.0.0
 stripe==7.3.0

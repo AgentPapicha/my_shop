@@ -64,6 +64,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+REST_FRAMEWORK = {
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    # 'PAGE_SIZE': 100
+}
+
 ROOT_URLCONF = 'my_shop.urls'
 
 TEMPLATES = [
@@ -100,13 +105,13 @@ WSGI_APPLICATION = 'my_shop.wsgi.application'
 
 DATABASES = {
 
-'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'USER': 'shop_admin',
-        'PASSWORD': 'pasha2109',
-        'NAME': 'shop_database',
-        'PORT': '5432',
-    }
+    'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'USER': 'shop_admin',
+            'PASSWORD': 'pasha2109',
+            'NAME': 'shop_database',
+            'PORT': '5432',
+        }
 
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql_psycopg2',

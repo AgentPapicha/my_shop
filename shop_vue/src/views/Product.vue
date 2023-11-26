@@ -11,6 +11,12 @@
 
                 <p>{{ product.description }}</p>
 
+                <div v-for="review in reviews" :key="review.id" class="review-wrapper">
+                    <p style="font-size:20px">Review</p>
+                    <p>User_name: {{ review.user}}</p>
+                    <p>Stars: {{ review.stars}}</p>
+                    <p style="color: blue;">Review text:{{ review.content }}</p>
+                </div>
             </div>
             <div class="column is-3">
                 <h2 class="subtitle">Information</h2>
@@ -42,11 +48,14 @@ export default {
     data() {
         return{
             product: {},
+            review: {},
+            reviews: [],
             'quantity': 1
         }
     },
     mounted() {
-        this.getProduct()
+        this.getProduct(),
+        this.getProductReviews()
     },
     methods: {
         async getProduct() {
@@ -59,7 +68,7 @@ export default {
                 .get(`/api/v1/products/${category_slug}/${product_slug}`)
                 .then(response => {
                     this.product = response.data
-
+ 
                     document.title = this.product.name + ' | Glee'
                 })
                 .catch(error => {
@@ -67,6 +76,21 @@ export default {
                 })
             this.$store.commit('setIsLoading', false) 
         },
+
+        async getProductReviews() {
+            const category_slug = this.$route.params.category_slug
+            const product_slug = this.$route.params.product_slug
+
+        await axios
+                .get(`/api/v1/products/${category_slug}/${product_slug}/reviews`)
+                .then(response => {
+                    this.reviews = response.data
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        },
+
         addToCart() {
             if (isNaN(this.quantity) || this.quantity < 1) {
                 this.quantity = 1

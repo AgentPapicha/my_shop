@@ -19,7 +19,7 @@
                     v-for="item in order.items"
                     v-bind:key="item.product.id"
                 >
-                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.name }}</td>
                     <td>${{ item.price }}</td>
                     <td>{{ item.quantity }}</td>
                     <td>${{ getItemTotal(item).toFixed(2) }}</td>

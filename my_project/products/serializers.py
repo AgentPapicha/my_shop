@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 
 from .models import Category, Product, ProductReview
 
@@ -43,3 +44,9 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return ProductReview.objects.create(**validated_data)
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email']

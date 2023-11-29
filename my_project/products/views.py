@@ -2,10 +2,11 @@ import logging
 import sys
 from django.db.models import Q
 from django.http import Http404
+from rest_framework.permissions import IsAuthenticated
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from rest_framework import viewsets, permissions
 
@@ -54,6 +55,7 @@ class ReviewsList(APIView):
         serializer = ReviewSerializer(reviews, many=True)
         return Response(serializer.data)
 
+    @permission_classes([IsAuthenticated])
     def post(self, request, category_slug, product_slug):
         serializer = ReviewSerializer(data=request.data)
 

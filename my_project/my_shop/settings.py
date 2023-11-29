@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-2=88$48p0ono-&34vnd=iqocdo1)8(1v)cn_#3cj1z)yg4$d@7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    # '127.0.0.1'
+    # 'ryzen'
+]
 
 STRIPE_SECRET_KEY = 'sk_test_51O9tIsJcK0ecXttYzovqExTj9YMtSL0Gl9jGRv1i0fjnGQwnFHfHd3VXRHWRst5UWOVU6F4VXomZKSV2RMYg0K1n004W6YYH54'
 
@@ -52,6 +55,16 @@ INSTALLED_APPS = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
 ]
+
+# CORS_ALLOW_METHODS = (
+#     "DELETE",
+#     "GET",
+#     "OPTIONS",
+#     "PATCH",
+#     "POST",
+#     "PUT",
+#     "HEAD"
+# )
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -143,6 +156,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+REST_FRAMEWORK = {
+     'DEFAULT_AUTHENTICATION_CLASSES': [
+         'rest_framework.authentication.TokenAuthentication',
+         'rest_framework.authentication.BasicAuthentication',
+         'rest_framework.authentication.SessionAuthentication',
+     ]
+ }
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -166,3 +187,4 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

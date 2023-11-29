@@ -6,9 +6,11 @@
                     <img v-bind:src="product.get_image">
 
                 </figure>
-
+                
                 <h1 class="title">{{ product.name }}</h1>
-
+                <p>{{ user_review_id }}</p>
+                <p>{{ user_id }}</p>
+                <p>{{ user_info }}</p>
                 <p>{{ product.description }}</p>
 
                 <div v-for="review in reviews" :key="review.id" class="review-wrapper">
@@ -61,12 +63,18 @@ export default {
             product: {},
             review: {},
             reviews: [],
-            'quantity': 1
+            'quantity': 1,
+            user_id: null,
+            user_info: {},
+            user_review_id: [],
         }
     },
     mounted() {
         this.getProduct(),
-        this.getProductReviews()
+        this.getProductReviews(),
+        // this.fetchUserId()
+        // this.fetchUser(),
+        this.getUserInfo()
     },
     methods: {
         async getProduct() {
@@ -87,6 +95,56 @@ export default {
                 })
             this.$store.commit('setIsLoading', false) 
         },
+        async getUserInfo() {
+    
+            await axios
+                .get('api/v1/users/me/', {
+                    headers: {      
+             Authorization: `Token ${localStorage.getItem('token')}`
+           }  
+                })
+                .then(response => {
+                    this.user_info = response.data
+                    this.user_id = response.data.id
+                })
+                .catch(error => {
+                        console.log(error)
+                })
+        },
+
+        // async fetchUserId() {
+        //     try {
+        //         const response = await this.$axios.get('/api/v1/users/'); // замените на ваш URL
+        //         this.id = response.data
+        //         // Дальше можете использовать this.userId по вашему усмотрению
+        //     } catch (error) {
+        //         console.error('Ошибка при получении id пользователя:', error);
+        //     }
+        //     },
+
+        // fetchUser() {
+        //     axios.defaults.headers.common["Authorization"] = ""
+        //  axios.get("/api/v1/users/", {
+        //         headers: {
+        //             Authorization: `Token ${localStorage.getItem('token')}`
+        //         }
+        //         })
+        //         .then(response => {
+        //             this.user = response.data;
+        //         })
+        //         .catch(error => {
+        //             console.error(error);
+        //         });
+        //     },
+        // getUserInfo() {
+        //     axios.defaults.headers.common["Authorization"] = ""
+
+        //     localStorage.getItem("token")
+        //     localStorage.getItem("username")
+        //     const userid = localStorage.getItem("userid")
+
+
+        // },
 
         async getProductReviews() {
             const category_slug = this.$route.params.category_slug
@@ -96,6 +154,7 @@ export default {
                 .get(`/api/v1/products/${category_slug}/${product_slug}/reviews`)
                 .then(response => {
                     this.reviews = response.data
+                    this.user_review_id = response.data.user
                 })
                 .catch(error => {
                     console.log(error)
@@ -103,23 +162,21 @@ export default {
         },
         async submitReview() {
             try {
-                const category_slug = this.$route.params.category_slug;
-                const product_slug = this.$route.params.product_slug;
+                const category_slug = this.$route.params.category_slug
+                const product_slug = this.$route.params.product_slug
 
                 const reviewData = {
-                id: 1,
-                user: 4,
-                date_added: "2023-11-26T17:07:18.121227Z", 
+                user: this.user_id,
                 content: this.review.content,
                 stars: this.review.stars,
-                };
+                }
 
-                const response = await axios.post(`/api/v1/products/${category_slug}/${product_slug}/reviews/`, reviewData);
-                console.log('Ответ от сервера:', response.data);
+                const response = await axios.post(`/api/v1/products/${category_slug}/${product_slug}/reviews/`, reviewData)
+                console.log('Ответ от сервера:', response.data)
 
 
-                this.review = {}; // Очистка формы после отправки отзыва
-                this.getProductReviews(); // Обновление списка отзывов
+                this.review = {}
+                this.getProductReviews()
 
                 // Выведите уведомление о успешной отправке
                 toast({
@@ -130,7 +187,7 @@ export default {
                 });
             } catch (error) {
                 console.error('Ошибка при отправке отзыва:', error.response.data);
-                // Обработка ошибки, например, вывод сообщения пользователю
+            
                 toast({
                     message: 'Ошибка при отправке отзыва',
                     type: 'is-danger',

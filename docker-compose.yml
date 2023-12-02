@@ -7,8 +7,8 @@ services:
     build:
       context: .
       dockerfile: ./compose/server/Dockerfile
-    volumes:
-      - ./my_project
+#    volumes:
+#      - ./my_project
     ports:
       - 8000:8000
     expose:
@@ -20,8 +20,8 @@ services:
     build:
       context: .
       dockerfile: ./compose/client/Dockerfile
-    volumes:
-      - ./shop_vue
+#    volumes:
+#      - ./shop_vue/src
     ports:
       - 8080:8080
     expose:

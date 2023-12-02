@@ -11,7 +11,10 @@ COPY ./my_project $PROJ_DIR
 WORKDIR ${PROJ_DIR}
 
 RUN pip install -r requirements.txt
-RUN python3 -m virtualenv --python=python3 virtualenv
+
+#RUN python3 -m virtualenv --python=python3 virtualenv
+#
+#ENV PYTHONPATH "${PYTHONPATH}:/my_project"
 
 COPY ./compose/server/entry.sh /entry.sh
 

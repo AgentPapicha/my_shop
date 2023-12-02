@@ -1,6 +1,19 @@
 version: "3.9"
 
 services:
+
+  db:
+      container_name: database_postgres
+      image: postgres:15.5-bullseye
+      volumes:
+        - F:\my_shop\compose\data
+      ports:
+        - 5432:5432
+      environment:
+        - POSTGRES_DB=shop_db
+        - POSTGRES_USER=shop_admin
+        - POSTGRES_PASSWORD=pasha2109
+
   django:
     container_name: backend_django
     restart: always

@@ -15,7 +15,7 @@ RUN pip install -r requirements.txt
 #RUN python3 -m virtualenv --python=python3 virtualenv
 #
 #ENV PYTHONPATH "${PYTHONPATH}:/my_project"
-
+COPY ./my_project/db.json ${PROJ_DIR}/
 COPY ./compose/server/entry.sh /entry.sh
 
 RUN chmod +x /entry.sh

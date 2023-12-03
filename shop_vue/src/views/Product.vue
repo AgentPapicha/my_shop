@@ -4,7 +4,6 @@
             <div class="column is-9">
                 <figure class="image mb-6">
                     <img v-bind:src="product.get_image">
-
                 </figure>
                 
                 <h1 class="title">{{ product.name }}</h1>
@@ -29,7 +28,7 @@
                 <textarea v-model="review.content" id="content" required></textarea>
 
                 <label for="stars">Оценка:</label>
-                <input v-model.number="review.stars" type="number" id="stars" required/>
+                <input v-model.number="review.stars" type="number" id="stars" required max="5"/>
 
                 <button type="submit">Отправить отзыв</button>
                 </form>

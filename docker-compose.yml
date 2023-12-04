@@ -1,0 +1,56 @@
+version: "3.9"
+
+services:
+
+  db:
+      container_name: database_postgres
+      image: postgres:15.5-bullseye
+      volumes:
+        - ./data1/db:/var/lib/postgresql/data
+#        - ./shop_db_dump/shop_db_copy.sql:/docker-entrypoint-initdb.d/shop_db_copy.sql
+      ports:
+        - 5432:5432
+      environment:
+        - POSTGRES_DB=postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+#        - POSTGRES_DB=shop_database
+#        - POSTGRES_USER=shop_admin
+#        - POSTGRES_PASSWORD=pasha2109
+
+
+
+  django:
+    container_name: backend_django
+    restart: always
+    build:
+      context: .
+      dockerfile: ./compose/server/Dockerfile
+#    volumes:
+#      - ./my_project
+    ports:
+      - 8000:8000
+    expose:
+      - 8000
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+#      - POSTGRES_NAME=shop_database
+#      - POSTGRES_USER=shop_admin
+#      - POSTGRES_PASSWORD=pasha2109
+    depends_on:
+      - db
+
+  front:
+    container_name: fronted_vue
+    restart: always
+    build:
+      context: .
+      dockerfile: ./compose/client/Dockerfile
+#    volumes:
+#      - ./shop_vue/src
+    ports:
+      - 8080:8080
+    expose:
+      - 8080

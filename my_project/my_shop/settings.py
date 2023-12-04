@@ -9,13 +9,19 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
+# import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+# env = environ.Env(
+#     DEBUG=(bool, False)
+# )
+#
+# environ.Env.read_env(env_file=BASE_DIR.joinpath('.env').open(encoding='UTF-8'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -26,8 +32,7 @@ SECRET_KEY = 'django-insecure-2=88$48p0ono-&34vnd=iqocdo1)8(1v)cn_#3cj1z)yg4$d@7
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    # '127.0.0.1'
-    # 'ryzen'
+    '*'
 ]
 
 STRIPE_SECRET_KEY = 'sk_test_51O9tIsJcK0ecXttYzovqExTj9YMtSL0Gl9jGRv1i0fjnGQwnFHfHd3VXRHWRst5UWOVU6F4VXomZKSV2RMYg0K1n004W6YYH54'
@@ -51,6 +56,8 @@ INSTALLED_APPS = [
     'order',
     'blog',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
@@ -114,8 +121,6 @@ WSGI_APPLICATION = 'my_shop.wsgi.application'
 # }
 
 
-        # 'PORT': '5432',
-
 DATABASES = {
 
     'default': {
@@ -126,16 +131,21 @@ DATABASES = {
             'PORT': '5432',
         }
 
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'HOST': '34.118.36.172',
-    #     'USER': 'my_django_user',
-    #     'PASSWORD': 'pasha2109',
-    #     'NAME': 'my_django_db',
-    #     'PORT': '5432',
-    # }
 }
 
+#for docker
+# DATABASES = {
+#
+#     'default': {
+#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#             'NAME': os.environ.get('POSTGRES_NAME'),
+#             'USER': os.environ.get('POSTGRES_USER'),
+#             'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+#             'HOST': 'db',
+#             'PORT': 5432,
+#         }
+#
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -181,7 +191,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media/'
+MEDIA_ROOT = Path(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

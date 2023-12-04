@@ -1,6 +1,6 @@
 <template>
   <div id="wrapper">
-    <nav class="navbar is-dark">
+    <nav class="navbar is-light menu">
       <div class="navbar-brand">
         <router-link to="/" class="navbar-item"><strong>Glee</strong></router-link>
 
@@ -33,6 +33,7 @@
         </div>
 
         <div class="navbar-end">
+          <router-link to="/about" class="navbar-item">About</router-link>
           <router-link to="/chairs" class="navbar-item">Chairs</router-link>
           <router-link to="/furnitures" class="navbar-item">Furnitures</router-link>
 

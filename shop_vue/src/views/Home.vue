@@ -7,16 +7,7 @@
   <link rel="stylesheet" href="../assets/css/style.min.css">
 </head>
   <div class="home">
-    <section class="hero is-medium is-dark mb-6">
-        <div class="hero-body has-text-centered">
-            <p class="title mb-6">
-                Welcome to Glee
-            </p>
-            <p class="subtitle">
-                The best furniture store online
-            </p>
-        </div>
-    </section>
+
 <main class="main">
   <section class="top-slider">
 
@@ -37,8 +28,49 @@
         <img class="top-slider__img" src="../assets/images/slider/photo.png" alt="slide img">
     </div>
 </div>
-
 </section>
+
+
+<div class="about">
+            <div class="about__wrapper">
+                <div class="about__item">
+                    <img class="about__item-img" src="../assets/images/icons/support.svg" alt="Support picture">
+                    <div class="about__item-content1">
+                        <h5 class="about__item-title">
+                            Support 24/7.
+                        </h5>
+                        <p class="about__item-text">
+                            Contact us 24 hours a day, <br>
+                            7 days a week.
+                        </p>
+                    </div>
+                </div>
+                <div class="about__item">
+                    <img class="about__item-img" src="../assets/images/icons/delivery.svg" alt="Delivery icon">
+                    <div class="about__item-content">
+                        <h5 class="about__item-title">
+                            Delivery.
+                        </h5>
+                        <p class="about__item-text">
+                            Free shipping on all US order.
+                        </p>
+                    </div>
+                </div>
+                <div class="about__item">
+                    <img class="about__item-img" src="../assets/images/icons/payment.svg" alt=" Credit card icon">
+                    <div class="about__item-content">
+                        <h5 class="about__item-title">
+                            100% Payment secure.
+                        </h5>
+                        <p class="about__item-text">
+                            We ensure secure payment <br>
+                            with PEV.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 </main>
     <div class="columns is-multiline">
       <div class="column is-12">

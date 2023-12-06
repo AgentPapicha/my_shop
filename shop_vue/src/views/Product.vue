@@ -14,12 +14,12 @@
                 <p>user_id:{{ user_id }}</p>
                 <p>user_info:{{ user_info }}</p>-->
                 <p>{{ product.description }}</p>
-
+                <h2 class="title">Reviews:</h2>
                 <div v-for="review in reviews" :key="review.id" class="review-wrapper">
-                    <p style="font-size:20px">Review</p>
+                    <p class="title">Review</p>
                     <p>User_name: {{ review.user}}</p>
                     <p>Stars: {{ review.stars}}</p>
-                    <p style="color: blue;">Review text:{{ review.content }}</p>
+                    <p class="review-wrapper__text">Review text:{{ review.content }}</p>
                 </div>
 
                 <div>
@@ -54,6 +54,22 @@
 
     </div>
 </template>
+
+<style lang="scss">
+.review-wrapper{
+    margin-bottom: 20px;
+    border-bottom: 1px solid #a3bbc8;
+
+    &__text{
+        font-size: 16px;
+    line-height: 30px;
+    color: #2292a5;
+    }
+
+}
+
+
+</style>
 
 <script>
 import axios from 'axios'

@@ -70,7 +70,127 @@
     </section>
 
     <footer class="footer">
-      <p class="has-text-centered">Copyright (c) 2023</p>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-top__item footer-top__contact">
+                    <a class="logo footer-top__logo" href="#">
+                        <img class="logo__img " src="./assets/images/logo.png" alt="logo">
+                    </a>
+                    <a class="footer-top__adress" href="#">
+                        ADDRESS: 4772 Wines Lane
+                        Houston, TX 77032
+                    </a>
+                    <a class="footer-top__phone" href="tel:+8323475843">
+                        Telephone: +832-347-5843
+                    </a>
+                    <a class="footer-top__email" href="mailto:contact@Glee.com">
+                        Email: contact@Glee.com
+                    </a>
+
+                </div>
+                <div class="footer-top__item footer-top__services">
+                    <h6 class="footer-top__title">
+                        Services
+                    </h6>
+                    <ul class="footer-top__list">
+                        <li class="footer-top__item">
+                            <a class="footer-top__link" href="#">
+                                About us
+                            </a>
+                        </li>
+                        <li class="footer-top__item">
+                            <a class="footer-top__link" href="#">
+                                Return Policy
+                            </a>
+                        </li>
+                        <li class="footer-top__item">
+                            <a class="footer-top__link" href="#">
+                                Our Blog
+                            </a>
+                        </li>
+                        <li class="footer-top__item">
+                            <a class="footer-top__link" href="#">
+                                Contact Us
+                            </a>
+                        </li>
+                        <li class="footer-top__item">
+                            <a class="footer-top__link" href="#">
+                                Terms & Condition
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-top__item footer-top__account">
+                    <h6 class="footer-top__title">
+                        Account
+                    </h6>
+                    <ul class="footer-top__list">
+                        <li class="footer-top__item">
+                            <a class="footer-top__link" href="#">
+                                Your Account
+                            </a>
+                        </li>
+                        <li class="footer-top__item">
+                            <a class="footer-top__link" href="#">
+                                Checkout
+                            </a>
+                        </li>
+                        <li class="footer-top__item">
+                            <a class="footer-top__link" href="#">
+                                Login
+                            </a>
+                        </li>
+                        <li class="footer-top__item">
+                            <a class="footer-top__link" href="#">
+                                Register
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-top__item footer-top__item-form">
+                    <h6 class="footer-top__title">
+                        newsletter
+                    </h6>
+                    <p class="footer-top__text">
+                        Subscribe by our newsletter and get
+                        update protidin.
+                    </p>
+                    <form class="footer-top__form" action="#">
+                        <input class="footer-top__form-input" type="email" placeholder="Email address">
+                        <button class="footer-top__form-btn" type="submit" required>
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bot">
+                <p class="footer-bot__copy">
+                    ©2023 CopyRight Example. All rights reserved.
+                </p>
+                <menu class="footer-bot__menu">
+                    <li class="footer-bot__menu-item">
+                        <a class="footer-bot__menu-link" href="#">
+                            Home
+                        </a>
+                    </li>
+                    <li class="footer-bot__menu-item">
+                        <a class="footer-bot__menu-link" href="#">
+                            About
+                        </a>
+                    </li>
+                    <li class="footer-bot__menu-item">
+                        <a class="footer-bot__menu-link" href="#">
+                            Blog
+                        </a>
+                    </li>
+                    <li class="footer-bot__menu-item">
+                        <a class="footer-bot__menu-link" href="#">
+                            Contact
+                        </a>
+                    </li>
+                </menu>
+            </div>
+        </div>
     </footer>
   </div>
 </template>
@@ -158,4 +278,23 @@ export default{
   }
 }
 
+.button.is-primary {
+    background-color: #a3bbc8;
+    border-color: transparent;
+    color: #fff;
+}
+
+
+.button.is-success {
+    background-color: #a3bbc8;
+    border-color: transparent;
+    color: #fff;
+}
+
+
+.button.is-success:hover, .button.is-success.is-hovered {
+    background-color: #414141;
+    border-color: transparent;
+    color: #fff;
+}
 </style>

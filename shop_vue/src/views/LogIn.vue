@@ -54,7 +54,7 @@
 
                     <div class="field">
                         <div class="control">
-                            <button class="button is-dark">Log in</button>
+                            <button class="modal__btn-login">Log in</button>
                         </div>
                     </div>
 

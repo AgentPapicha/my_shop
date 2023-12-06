@@ -11,15 +11,6 @@
 
 <body>
 
-    <header class="header">
-        <div class="header__wrap">
-            <a class="logo" href="#">
-                <img class="logo__img" src="images/logo.png" alt="logo">
-            </a>
-
- 
-        </div>
-    </header>
 
     <main class="main">
 
@@ -35,7 +26,7 @@
                               
                                 <router-link to="/" class="breadcrumbs__link">
                                     Home
-                                  </router-link>
+                                </router-link>
                                 
                             </li>
                             <li class="breadcrumbs__item">
@@ -52,7 +43,7 @@
         <section class="mission">
             <div class="container">
                 <div class="mission__wrapper">
-                    <img class="mission__image" src="images/mission-man.jpg" width="570px" height="676px"
+                    <img class="mission__image" src="../assets/images/mission-man.jpg" width="570px" height="676px"
                         alt="mission photo">
                     <div class="mission__info">
                         <div class="mission__experience">
@@ -77,7 +68,7 @@
                         <div class="mission__stats">
                             <ul class="mission__stats-list">
                                 <li>
-                                    <img src="images/icons/mission1.svg" alt="stats logo">
+                                    <img src="../assets/images/icons/mission1.svg" alt="stats logo">
                                     <div class="mission__stats-amount">
                                         <p>
                                             520+
@@ -89,7 +80,7 @@
                                 </li>
 
                                 <li>
-                                    <img src="images/icons/mission2.svg" alt="stats logo">
+                                    <img src="../assets/images/icons/mission2.svg" alt="stats logo">
                                     <div class="mission__stats-amount">
                                         <p>
                                             $4M
@@ -101,7 +92,7 @@
                                 </li>
 
                                 <li>
-                                    <img src="images/icons/mission3.svg" alt="stats logo">
+                                    <img src="../assets/images/icons/mission3.svg" alt="stats logo">
                                     <div class="mission__stats-amount">
                                         <p>
                                             250
@@ -121,7 +112,7 @@
                 <div class="container">
                     <ul class="our-stats__list">
                         <li class="our-stats__list-item">
-                            <img src="images/icons/satisfied-clients.svg" height="64px" alt="stats logo">
+                            <img src="../assets/images/icons/satisfied-clients.svg" height="64px" alt="stats logo">
                             <p>
                                 99%
                             </p>
@@ -130,7 +121,7 @@
                             </h5>
                         </li>
                         <li class="our-stats__list-item">
-                            <img src="images/icons/products.svg" height="64px" alt="stats logo">
+                            <img src="../assets/images/icons/products.svg" height="64px" alt="stats logo">
                             <p>
                                 5020+
                             </p>
@@ -139,7 +130,7 @@
                             </h5>
                         </li>
                         <li class="our-stats__list-item">
-                            <img src="images/icons/working-time.svg" height="64px" alt="stats logo">
+                            <img src="../assets/images/icons/working-time.svg" height="64px" alt="stats logo">
                             <p>
                                 23hr
                             </p>
@@ -148,7 +139,7 @@
                             </h5>
                         </li>
                         <li class="our-stats__list-item">
-                            <img src="images/icons/brands.svg" height="64px" alt="stats logo">
+                            <img src="../assets/images/icons/brands.svg" height="64px" alt="stats logo">
                             <p>
                                 140+
                             </p>
@@ -182,7 +173,7 @@
                     </div>
                     <ul class="team__members">
                         <li class="team__member">
-                            <img class="team__member-photo" src="images/team-member1.jpg" alt="team member photo">
+                            <img class="team__member-photo" src="../assets/images/team-member1.jpg" alt="team member photo">
                             <div class="team__member-info">
                                 <div class="team__member-name">
                                     <h4>
@@ -215,7 +206,7 @@
                             </div>
                         </li>
                         <li class="team__member">
-                            <img class="team__member-photo" src="images/team-member2.jpg" alt="team member photo">
+                            <img class="team__member-photo" src="../assets/images/team-member2.jpg" alt="team member photo">
                             <div class="team__member-info">
                                 <div class="team__member-name">
                                     <h4>
@@ -248,7 +239,7 @@
                             </div>
                         </li>
                         <li class="team__member">
-                            <img class="team__member-photo" src="images/team-member3.jpg" alt="team member photo">
+                            <img class="team__member-photo" src="../assets/images/team-member3.jpg" alt="team member photo">
                             <div class="team__member-info">
                                 <div class="team__member-name">
                                     <h4>
@@ -281,7 +272,7 @@
                             </div>
                         </li>
                         <li class="team__member">
-                            <img class="team__member-photo" src="images/team-member4.jpg" alt="team member photo">
+                            <img class="team__member-photo" src="../assets/images/team-member4.jpg" alt="team member photo">
                             <div class="team__member-info">
                                 <div class="team__member-name">
                                     <h4>
@@ -329,72 +320,31 @@
                     </a>
                 </div>
                 <div class="articles__items">
-                    <div class="articles__item">
-                        <a class="articles__item-imglink" href="#">
-                            <img class="articles__item-image" src="images/articles/1.jpg" alt="article image">
-                        </a>
+                    <div class="articles__item" 
+                    v-for="article in latestArticles"
+                    v-bind:key="article.id">
+                    <router-link class="articles__item-imglink" v-bind:to="'/articles' + article.get_absolute_url">
+                            <img v-bind:src="article.get_thumbnail" class="articles__item-image"  alt="article image">
+                    </router-link>
                         <a class="articles__item-type">
                             NEWS
                         </a>
                         <div class="articles__item-content">
+                            <router-link v-bind:to="'/articles' + article.get_absolute_url">
                             <p class="articles__item-text">
-                                Diusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                                {{ article.title }}
                             </p>
+                            </router-link>
                             <div class="articles__item-info">
                                 <a class="articles__item-date" href="#">
-                                     28 JANUARY, 2020
+                                {{ article.created_at }}
                                 </a>
                                 <a class="articles__item-author" href="#">
-                                     BY ADMIN
+                                 By {{ article.author_name }}
                                 </a>
                             </div>
                         </div>
                     </div>
-
-                    <div class="articles__item">
-                        <a class="articles__item-imglink" href="#">
-                            <img class="articles__item-image" src="images/articles/2.jpg" alt="article image">
-                        </a>
-                        <a class="articles__item-type">
-                            NEWS
-                        </a>
-                        <div class="articles__item-content">
-                            <p class="articles__item-text">
-                                Aonsectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                            </p>
-                            <div class="articles__item-info">
-                                <a class="articles__item-date" href="#">
-                                     28 JANUARY, 2020
-                                </a>
-                                <a class="articles__item-author" href="#">
-                                     BY ADMIN
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="articles__item">
-                        <a class="articles__item-imglink" href="#">
-                            <img class="articles__item-image" src="images/articles/3.jpg" alt="article image">
-                        </a>
-                        <a class="articles__item-type">
-                            NEWS
-                        </a>
-                        <div class="articles__item-content">
-                            <p class="articles__item-text">
-                                Rncididunt ut labore et dolore magna aliqua. Ut enim
-                            </p>
-                            <div class="articles__item-info">
-                                <a class="articles__item-date" href="#">
-                                     28 JANUARY, 2020
-                                </a>
-                                <a class="articles__item-author" href="#">
-                                     BY ADMIN
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
 
             </div>
@@ -402,19 +352,19 @@
                 <div class="container">
                     <ul class="partners__list">
                         <li class="partners__list-item">
-                            <img src="images/partners/1.png" alt="partner logo">
+                            <img src="../assets/images/partners/1.png" alt="partner logo">
                         </li>
                         <li class="partners__list-item">
-                            <img src="images/partners/2.png" alt="partner logo">
+                            <img src="../assets/images/partners/2.png" alt="partner logo">
                         </li>
                         <li class="partners__list-item">
-                            <img src="images/partners/3.png" alt="partner logo">
+                            <img src="../assets/images/partners/3.png" alt="partner logo">
                         </li>
                         <li class="partners__list-item">
-                            <img src="images/partners/4.png" alt="partner logo">
+                            <img src="../assets/images/partners/4.png" alt="partner logo">
                         </li>
                         <li class="partners__list-item">
-                            <img src="images/partners/5.png" alt="partner logo">
+                            <img src="../assets/images/partners/5.png" alt="partner logo">
                         </li>
                     </ul>
                 </div>
@@ -426,3 +376,37 @@
 
 </html>
 </template>
+
+<script>
+require("@/assets/css/style.min.css")
+import axios from 'axios'
+
+export default {
+  name: 'About',
+  data() {
+    return {
+      latestArticles: []
+    }
+  },
+  components: {
+
+  },
+  mounted() {
+    this.getLatestArticles()
+  },
+
+  methods: {
+
+    async getLatestArticles() {
+        await axios
+            .get('/api/v1/latest-articles/')
+            .then(response => {
+            this.latestArticles = response.data
+            })
+            .catch(error => {
+            console.log(error)
+            })
+    }
+  }
+}
+</script>

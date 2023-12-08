@@ -34,10 +34,12 @@ class LatestProductsList(APIView):
 class ProductDetail(APIView):
     def get_object(self, category_slug, product_slug):
         try:
-            return Product.objects.filter(category__slug=category_slug).get(slug=product_slug)
+            return Product.objects.filter(category__slug=category_slug).get(
+                slug=product_slug
+            )
         except Product.DoesNotExist:
             return Http404
-    
+
     def get(self, request, category_slug, product_slug, format=None):
         product = self.get_object(category_slug, product_slug)
         serializer = ProductSerializer(product)
@@ -45,14 +47,18 @@ class ProductDetail(APIView):
 
     def get_reviews(self, request, category_slug, product_slug):
         # reviews = ProductReview.objects.all()
-        reviews = ProductReview.objects.filter(product__category__slug=category_slug, product__slug=product_slug)
+        reviews = ProductReview.objects.filter(
+            product__category__slug=category_slug, product__slug=product_slug
+        )
         serializer = ReviewSerializer(reviews, many=True)
         return Response(serializer.data)
 
 
 class ReviewsList(APIView):
     def get(self, request, category_slug, product_slug):
-        reviews = ProductReview.objects.filter(product__category__slug=category_slug, product__slug=product_slug)
+        reviews = ProductReview.objects.filter(
+            product__category__slug=category_slug, product__slug=product_slug
+        )
         serializer = ReviewSerializer(reviews, many=True)
         return Response(serializer.data)
 
@@ -61,7 +67,9 @@ class ReviewsList(APIView):
         serializer = ReviewSerializer(data=request.data)
 
         if serializer.is_valid():
-            product = Product.objects.get(category__slug=category_slug, slug=product_slug)
+            product = Product.objects.get(
+                category__slug=category_slug, slug=product_slug
+            )
             serializer.save(product=product)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -75,7 +83,6 @@ class ReviewsViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
 
     def list(self, request) -> Response:
-
         logger.debug("Hello from list method")
         return Response([review.content for review in self.queryset])
 
@@ -103,12 +110,14 @@ class CategoryDetail(APIView):
         return Response(serializer.data)
 
 
-@api_view(['POST'])
+@api_view(["POST"])
 def search(request):
-    query = request.data.get('query', '')
+    query = request.data.get("query", "")
 
     if query:
-        products = Product.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
+        products = Product.objects.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        )
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
     else:

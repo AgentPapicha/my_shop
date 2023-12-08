@@ -8,12 +8,6 @@
                 
                 <h1 class="title">{{ product.name }}</h1>
                 <h4 class="sub-title">{{ product.description }}</h4>
-                <!-- <p> Отзывы{{ reviews }}</p>
-                <p>userreviewid{{ review.user }}</p>
-                <p>userList{{ review_userid_List }}</p> 
-                <p>user_id:{{ user_id }}</p>
-                <p>user_info:{{ user_info }}</p>-->
-                <p>{{ product.description }}</p>
                 <h2 class="title">Reviews:</h2>
                 <div v-for="review in reviews" :key="review.id" class="review-wrapper">
                     <p class="title">Review</p>

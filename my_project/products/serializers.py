@@ -14,7 +14,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "description",
             "price",
             "get_image",
-            "get_thumbnail"
+            "get_thumbnail",
         )
 
 
@@ -35,11 +35,11 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductReview
         fields = (
-           "id",
-           "content",
-           "stars",
-           "user",
-           "date_added",
+            "id",
+            "content",
+            "stars",
+            "user",
+            "date_added",
         )
 
     def create(self, validated_data):
@@ -49,4 +49,4 @@ class ReviewSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email']
+        fields = ["id", "username", "email"]

@@ -34,6 +34,7 @@ class LatestProductsList(APIView):
 class ProductDetail(APIView):
     def get_object(self, category_slug, product_slug):
         try:
+            # FIXME: It's better to use .filter().first() and check for None instead of try/catch
             return Product.objects.filter(category__slug=category_slug).get(slug=product_slug)
         except Product.DoesNotExist:
             return Http404
@@ -44,7 +45,9 @@ class ProductDetail(APIView):
         return Response(serializer.data)
 
     def get_reviews(self, request, category_slug, product_slug):
-        # reviews = ProductReview.objects.all()
+        # reviews = ProductReview.objects.all()  # FIXME: forgot to remove commented code
+        # FIXME: do you count the Queries executed here? Your ProductReview model have several ForeignKey relations
+        #   it's better to use .select_related()
         reviews = ProductReview.objects.filter(product__category__slug=category_slug, product__slug=product_slug)
         serializer = ReviewSerializer(reviews, many=True)
         return Response(serializer.data)
@@ -52,6 +55,7 @@ class ProductDetail(APIView):
 
 class ReviewsList(APIView):
     def get(self, request, category_slug, product_slug):
+        # FIXME: Same as above about select_related
         reviews = ProductReview.objects.filter(product__category__slug=category_slug, product__slug=product_slug)
         serializer = ReviewSerializer(reviews, many=True)
         return Response(serializer.data)
@@ -61,16 +65,26 @@ class ReviewsList(APIView):
         serializer = ReviewSerializer(data=request.data)
 
         if serializer.is_valid():
+            # FIXME: Same as above about select_related
             product = Product.objects.get(category__slug=category_slug, slug=product_slug)
             serializer.save(product=product)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+        # FIXME: It's better to handle incorrect case first:
+        """
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        # do some stuff
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        """
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ReviewsViewSet(viewsets.ModelViewSet):
-    queryset = ProductReview.objects.all().order_by("-date_added")
+    queryset = ProductReview.objects.all().order_by("-date_added")  # FIXME: same about select_related
     serializer_class = ReviewSerializer
     permission_classes = [permissions.AllowAny]
 
@@ -86,14 +100,14 @@ class ReviewsViewSet(viewsets.ModelViewSet):
         if s.is_valid():
             s.save()
             return Response("Saved OK")
-        else:
+        else:  # FIXME: Bad case should goes first
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class CategoryDetail(APIView):
     def get_object(self, category_slug):
         try:
-            return Category.objects.get(slug=category_slug)
+            return Category.objects.get(slug=category_slug)  # FIXME: filter().first() is better
         except Category.DoesNotExist:
             return Http404
 
@@ -112,4 +126,4 @@ def search(request):
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
     else:
-        return Response({"products": []})
+        return Response({"products": []})  # FIXME: Bad case should goes first

@@ -26,7 +26,7 @@ def checkout(request):
             item.get('quantity') * item.get('product').price for item in serializer.validated_data['items'])
 
         try:
-            charge = stripe.Charge.create(
+            charge = stripe.Charge.create(   # FIXME: if you don't use the object returned by the method call - no need to create a reference to it!
                 amount=int(paid_amount * 100),
                 currency='USD',
                 description='Charge from Glee',
@@ -36,7 +36,7 @@ def checkout(request):
             serializer.save(user=request.user, paid_amount=paid_amount)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        except Exception:
+        except Exception:  # FIXME: Catching the too broad exceptions is bad practice
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

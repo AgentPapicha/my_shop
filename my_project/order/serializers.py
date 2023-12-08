@@ -5,7 +5,7 @@ from .models import Order, OrderItem
 from products.serializers import ProductSerializer
 
 
-class MyOrderItemSerializer(serializers.ModelSerializer):
+class MyOrderItemSerializer(serializers.ModelSerializer):  # FIXME: the same about Serializer inheritance
     product = ProductSerializer
 
     class Meta:
@@ -71,5 +71,13 @@ class OrderSerializer(serializers.ModelSerializer):
 
         for item_data in items_data:
             OrderItem.objects.create(order=order, **item_data)
+
+        # FIXME: for creating a more that one item in DB
+        #  it's better to use bulk_create as bellow:
+        """
+        OrderItem.objects.bulk_create(
+            [OrderItem(order=order, **item_data) for item_data in items_data]
+        )
+        """
 
         return order

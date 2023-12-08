@@ -4,6 +4,8 @@ from django.core.files import File
 from io import BytesIO
 from PIL import Image
 
+# FIXME: missing type annotations
+
 
 class Article(models.Model):
     title = models.CharField(max_length=400)
@@ -22,19 +24,19 @@ class Article(models.Model):
 
     def get_image(self):
         if self.image:
-            return 'http://127.0.0.1:8000' + self.image.url
+            return 'http://127.0.0.1:8000' + self.image.url  # FIXME: Host should be placed in Environment variables
         return ''
 
     def get_thumbnail(self):
         if self.thumbnail:
-            return 'http://127.0.0.1:8000' + self.thumbnail.url
-        else:
+            return 'http://127.0.0.1:8000' + self.thumbnail.url  # FIXME: Host should be placed in Environment variables
+        else:   # FIXME: 'else' is redundant
             if self.image:
                 self.thumbnail = self.make_thumbnail(self.image)
                 self.save()
 
                 return 'http://127.0.0.1:8000' + self.thumbnail.url
-            else:
+            else:  # FIXME: 'else' is redundant
                 return ''
 
     def make_thumbnail(self, image, size=(370, 250)):

@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import Article
 
 
-class ArticleSerializer(serializers.ModelSerializer):
+class ArticleSerializer(serializers.ModelSerializer):  # FIXME: better to use HyperLinkedModelSerializer
     class Meta:
         model = Article
         fields = (

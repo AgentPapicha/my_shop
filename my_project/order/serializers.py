@@ -33,7 +33,7 @@ class MyOrderSerializer(serializers.ModelSerializer):
             "phone",
             "stripe_token",
             "items",
-            "paid_amount"
+            "paid_amount",
         )
 
 
@@ -66,7 +66,7 @@ class OrderSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
-        items_data = validated_data.pop('items')
+        items_data = validated_data.pop("items")
         order = Order.objects.create(**validated_data)
 
         for item_data in items_data:

@@ -18,12 +18,11 @@ class LatestArticles(APIView):
 
 class ArticlesPagination(PageNumberPagination):
     page_size = 2
-    page_size_query_param = 'page_size'
+    page_size_query_param = "page_size"
     max_page_size = 100
 
 
 class ArticlesList(APIView):
-
     def get(self, request, format=None):
         articles = Article.objects.all()
         serializer = ArticleSerializer(articles, many=True)
@@ -37,6 +36,7 @@ class ArticlesList3(generics.ListAPIView):
         articles = Article.objects.all()
         serializer = ArticleSerializer(articles, many=True)
         return Response(serializer.data)
+
 
 class ArticleDetail(APIView):
     def get_object(self, article_slug):

@@ -14,5 +14,5 @@ class ArticleSerializer(serializers.ModelSerializer):
             "author_name",
             "get_absolute_url",
             "get_image",
-            "get_thumbnail"
+            "get_thumbnail",
         )

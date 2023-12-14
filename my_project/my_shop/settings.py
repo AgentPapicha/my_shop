@@ -12,18 +12,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
-# import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# env = environ.Env(
-#     DEBUG=(bool, False)
-# )
-#
-# environ.Env.read_env(env_file=BASE_DIR.joinpath('.env').open(encoding='UTF-8'))
-# Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -37,7 +30,6 @@ ALLOWED_HOSTS = ["*"]
 STRIPE_SECRET_KEY = "sk_test_51O9tIsJcK0ecXttYzovqExTj9YMtSL0Gl9jGRv1i0fjnGQwnFHfHd3VXRHWRst5UWOVU6F4VXomZKSV2RMYg0K1n004W6YYH54"
 
 STRIPE_PUBLISHABLE_KEY = "pk_test_51O9tIsJcK0ecXttYZWpFHyQlMlMOz6JjFKVnNttjQeTT1TxthKdHxWrJdpF1JKCTvXUesNxwghH1sUmUnwKqcUKL00IC7BMnYy"
-# Application definition
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -62,16 +54,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
 ]
 
-# CORS_ALLOW_METHODS = (
-#     "DELETE",
-#     "GET",
-#     "OPTIONS",
-#     "PATCH",
-#     "POST",
-#     "PUT",
-#     "HEAD"
-# )
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -82,11 +64,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
-REST_FRAMEWORK = {
-    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    # 'PAGE_SIZE': 100
-}
 
 ROOT_URLCONF = "my_shop.urls"
 
@@ -109,10 +86,6 @@ TEMPLATES = [
 WSGI_APPLICATION = "my_shop.wsgi.application"
 
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-#
 # DATABASES = {
 #
 #     'default': {
@@ -181,8 +154,15 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 MEDIA_URL = "/media/"
-# MEDIA_ROOT = BASE_DIR / 'media/'
 MEDIA_ROOT = Path(BASE_DIR, "media")
+
+APP_HOST = os.environ.get("APP_HOST")
+APP_PORT = os.environ.get("APP_PORT")
+
+if APP_HOST:
+    APP_URL = f"http://{APP_HOST}:{APP_PORT}"
+else:
+    APP_URL = "http://127.0.0.1:8000"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

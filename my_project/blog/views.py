@@ -1,5 +1,5 @@
 from django.http import Http404
-from rest_framework import generics
+from rest_framework import generics, request
 
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import APIView
@@ -10,9 +10,9 @@ from .serializers import ArticleSerializer
 
 
 class LatestArticles(APIView):
-    def get(self, request, format=None):
+    def get(self, _) -> Response:
         articles = Article.objects.all()[0:3]
-        serializer = ArticleSerializer(articles, many=True)
+        serializer = ArticleSerializer(articles, many=True, context={"request": None})
         return Response(serializer.data)
 
 
@@ -23,7 +23,7 @@ class ArticlesPagination(PageNumberPagination):
 
 
 class ArticlesList(APIView):
-    def get(self, request, format=None):
+    def get(self, request) -> Response:
         articles = Article.objects.all()
         serializer = ArticleSerializer(articles, many=True)
         return Response(serializer.data)
@@ -45,7 +45,7 @@ class ArticleDetail(APIView):
         except Article.DoesNotExist:
             return Http404
 
-    def get(self, request, article_slug, format=None):
+    def get(self, request, article_slug) -> Response:
         article = self.get_object(article_slug)
         serializer = ArticleSerializer(article)
         return Response(serializer.data)

@@ -32,7 +32,7 @@ def checkout(request):
         )
 
         try:
-            charge = stripe.Charge.create(
+            stripe.Charge.create(
                 amount=int(paid_amount * 100),
                 currency="USD",
                 description="Charge from Glee",
@@ -42,8 +42,10 @@ def checkout(request):
             serializer.save(user=request.user, paid_amount=paid_amount)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        except Exception:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except (
+            stripe.error.StripeError
+        ) as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -52,7 +54,7 @@ class OrdersList(APIView):
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
-    def get(self, request, format=None):
+    def get(self, request) -> Response:
         orders = Order.objects.filter(user=request.user)
         serializer = MyOrderSerializer(orders, many=True)
         return Response(serializer.data)

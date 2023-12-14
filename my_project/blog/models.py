@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.files import File
-
+from my_shop.settings import APP_URL
 from io import BytesIO
 from PIL import Image
 
@@ -16,30 +16,28 @@ class Article(models.Model):
         upload_to="uploads/blog_thumbnails/", blank=True, null=True
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return f"/{self.slug}"
 
-    def get_image(self):
+    def get_image(self) -> str:
         if self.image:
-            return "http://127.0.0.1:8000" + self.image.url
+            return APP_URL + self.image.url
         return ""
 
-    def get_thumbnail(self):
+    def get_thumbnail(self) -> str:
         if self.thumbnail:
-            return "http://127.0.0.1:8000" + self.thumbnail.url
-        else:
-            if self.image:
-                self.thumbnail = self.make_thumbnail(self.image)
-                self.save()
+            return APP_URL + self.thumbnail.url
 
-                return "http://127.0.0.1:8000" + self.thumbnail.url
-            else:
-                return ""
+        if self.image:
+            self.thumbnail = self.make_thumbnail(self.image)
+            self.save()
 
-    def make_thumbnail(self, image, size=(370, 250)):
+            return APP_URL + self.thumbnail.url
+
+    def make_thumbnail(self, image, size=(370, 250)) -> File:
         img = Image.open(image)
         img.convert("RGB")
         img.thumbnail(size)

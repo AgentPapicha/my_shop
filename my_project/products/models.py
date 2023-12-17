@@ -39,27 +39,23 @@ class Product(models.Model):
     def __str__(self) -> str:
         return self.name
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return f"/{self.category.slug}/{self.slug}"
 
-    def get_image(self):
+    def get_image(self) -> str:
         if self.image:
             return APP_URL + self.image.url
-        return ""
 
-    def get_thumbnail(self):
+    def get_thumbnail(self) -> str:
         if self.thumbnail:
             return APP_URL + self.thumbnail.url
         else:
             if self.image:
                 self.thumbnail = self.make_thumbnail(self.image)
                 self.save()
-
                 return APP_URL + self.thumbnail.url
-            else:
-                return ""
 
-    def make_thumbnail(self, image, size=(300, 200)):
+    def make_thumbnail(self, image, size=(300, 200)) -> File:
         img = Image.open(image)
         img.convert("RGB")
         img.thumbnail(size)

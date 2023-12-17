@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 
 
 class LatestProductsList(APIView):
-    def get(self, request, format=None):
+    def get(self, _) -> Response:
         products = Product.objects.all()[0:4]
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
@@ -33,92 +33,60 @@ class LatestProductsList(APIView):
 
 class ProductDetail(APIView):
     def get_object(self, category_slug, product_slug):
-        try:
-            return Product.objects.filter(category__slug=category_slug).get(
-                slug=product_slug
-            )
-        except Product.DoesNotExist:
+        obj = Product.objects.filter(category__slug=category_slug, slug=product_slug).first()
+        if not obj:
             return Http404
+        else:
+            return obj
 
-    def get(self, request, category_slug, product_slug, format=None):
+    def get(self, request, category_slug, product_slug) -> Response:
         product = self.get_object(category_slug, product_slug)
         serializer = ProductSerializer(product)
         return Response(serializer.data)
 
-    def get_reviews(self, request, category_slug, product_slug):
-        # reviews = ProductReview.objects.all()
-        reviews = ProductReview.objects.filter(
-            product__category__slug=category_slug, product__slug=product_slug
-        )
-        serializer = ReviewSerializer(reviews, many=True)
-        return Response(serializer.data)
-
 
 class ReviewsList(APIView):
-    def get(self, request, category_slug, product_slug):
-        reviews = ProductReview.objects.filter(
-            product__category__slug=category_slug, product__slug=product_slug
-        )
+    def get(self, request, category_slug, product_slug) -> Response:
+        reviews = ProductReview.objects.select_related("product")
         serializer = ReviewSerializer(reviews, many=True)
         return Response(serializer.data)
 
     @permission_classes([IsAuthenticated])
-    def post(self, request, category_slug, product_slug):
+    def post(self, request, category_slug, product_slug) -> Response:
         serializer = ReviewSerializer(data=request.data)
 
-        if serializer.is_valid():
-            product = Product.objects.get(
-                category__slug=category_slug, slug=product_slug
-            )
-            serializer.save(product=product)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        product = Product.objects.get(category__slug=category_slug, slug=product_slug)
+        serializer.save(product=product)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class ReviewsViewSet(viewsets.ModelViewSet):
-    queryset = ProductReview.objects.all().order_by("-date_added")
-    serializer_class = ReviewSerializer
-    permission_classes = [permissions.AllowAny]
-
-    def list(self, request) -> Response:
-        logger.debug("Hello from list method")
-        return Response([review.content for review in self.queryset])
-
-    def create(self, request) -> Response:
-        logger.debug("Hello from create method")
-        data = request.data
-        s = self.serializer_class(data=data)
-        if s.is_valid():
-            s.save()
-            return Response("Saved OK")
-        else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class CategoryDetail(APIView):
     def get_object(self, category_slug):
-        try:
-            return Category.objects.get(slug=category_slug)
-        except Category.DoesNotExist:
+        category = Category.objects.filter(slug=category_slug).first()
+        if not category:
             return Http404
+        else:
+            return category
 
-    def get(self, request, category_slug, format=None):
+    def get(self, request, category_slug) -> Response:
         category = self.get_object(category_slug)
         serializer = CategorySerializer(category)
         return Response(serializer.data)
 
 
 @api_view(["POST"])
-def search(request):
+def search(request) -> Response:
     query = request.data.get("query", "")
 
-    if query:
+    if not query:
+        return Response({"products": []})
+    else:
         products = Product.objects.filter(
             Q(name__icontains=query) | Q(description__icontains=query)
         )
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
-    else:
-        return Response({"products": []})

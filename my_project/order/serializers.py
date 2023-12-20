@@ -65,7 +65,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "items",
         )
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict) -> Order:
         items_data = validated_data.pop("items")
         order = Order.objects.create(**validated_data)
 

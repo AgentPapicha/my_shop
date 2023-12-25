@@ -1,9 +1,7 @@
 import stripe
 
 from django.conf import settings
-from django.contrib.auth.models import User
-from django.http import Http404
-from django.shortcuts import render
+from django.http import HttpRequest
 
 from rest_framework import status, authentication, permissions
 from rest_framework.decorators import (
@@ -14,7 +12,7 @@ from rest_framework.decorators import (
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import Order, OrderItem
+from .models import Order
 from .serializers import OrderSerializer, MyOrderSerializer
 
 

@@ -42,7 +42,7 @@ class ReviewSerializer(serializers.ModelSerializer):
             "date_added",
         )
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict) -> ProductReview:
         return ProductReview.objects.create(**validated_data)
 
 

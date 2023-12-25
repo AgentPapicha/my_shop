@@ -38,6 +38,7 @@
                     <p>User_name: {{ review.user }}</p>
                     <p>Stars: {{ review.stars }}</p>
                     <p class="review-wrapper__text">Review text:{{ review.content }}</p>
+                    <p>Date: {{ review.date_added }}</p>
                 </div>
 
                 <div>
@@ -162,7 +163,7 @@ export default {
         async submitReview() {
             if (this.review_userid_List.includes(this.user_id)) // Checking whether the user has left a review for this product
                 toast({
-                    message: 'Вы уже оставляли отзыв',
+                    message: 'You already have a review for this product!',
                     type: 'is-warning',
                     position: 'center',
                     duration: 3000,
@@ -180,7 +181,7 @@ export default {
 
 
                     const response = await axios.post(`/api/v1/products/${category_slug}/${product_slug}/reviews/`, reviewData)
-                    console.log('Ответ от сервера:', response.data)
+                    console.log('Server response:', response.data)
 
 
                     this.review = {}
@@ -188,16 +189,16 @@ export default {
 
 
                     toast({
-                        message: 'Отзыв успешно отправлен',
+                        message: 'Review sent successfully',
                         type: 'is-success',
                         position: 'bottom-right',
                         duration: 3000,
                     });
                 } catch (error) {
-                    console.error('Ошибка при отправке отзыва:', error.response.data);
+                    console.error('Error sending review:', error.response.data);
 
                     toast({
-                        message: 'Ошибка при отправке отзыва',
+                        message: 'Error sending review',
                         type: 'is-danger',
                         position: 'bottom-right',
                         duration: 3000,
